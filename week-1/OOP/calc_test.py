@@ -1,5 +1,4 @@
-from Calculator import calc
+from calculator import Calculator as calc
 
-test = calc([1,3,6])
-calc.mean
+test = calc([1,2,3,'4'])
 
