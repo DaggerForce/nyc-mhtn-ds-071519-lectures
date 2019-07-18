@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[133]:
-
-
 class Calculator:
     def __init__(self, data):
         import math
@@ -60,18 +54,6 @@ class Calculator:
         return 
         
 
-
-# In[135]:
-
-
-calc = Calculator([1, 2, 3, 4])
-print(calc.mean)
-calc.remove_data(2)
-print(calc.mean)
-calc.data
-
-
-# In[ ]:
 
 
 
