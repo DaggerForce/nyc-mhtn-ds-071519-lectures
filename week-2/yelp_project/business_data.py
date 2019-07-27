@@ -44,15 +44,32 @@ url_params = {'term': term.replace(' ', '+'),
               'location': location.replace(' ', '+'),
               'limit': 50
               }
-
-# skim through one instance of data
+#
 raw_business_data = all_results(url_params, api_key)
-#####raw_data_for_page = yelp_call(url_params, api_key)
+#
+
+def get_reviews(biz_id):
+    url = "https://api.yelp.com/v3/businesses/{}/reviews".format(biz_id)
+    headers = {'Authorization': 'Bearer {}'.format(yelp_config.api)}
+    response = requests.get(url, headers=headers, params=url_params)
+    data = response.json()['reviews']
+    return data
+
+def get_all_reviews(b_ids):
+    reviews = []
+    for b_id in b_ids:
+        try:
+            reviews.append(get_one_review(b_id))
+        except:
+            print(f'failed to get the review for {b_id}')
+    return reviews
 
 
+#skiming business data 
+#################################################
 def datum_dict(business_dict):
     ''' this function receives a dictionary with all the yelp keys and returns
-        a new dictionary with only the name, id, rating and price.'''
+        a new dictionary with only the name, id, rating and price. and a dictionary with only the business keys'''
     data_dict = {}
     for k, v in business_dict.items():
         if k == 'id':
@@ -65,9 +82,12 @@ def datum_dict(business_dict):
             data_dict[k] = v
     return data_dict
 
-# repeat the skimming proccess for all my data
+
+#skimming reviews
+#################################################
 
 
+# repeat the skimming proccess for all our data giving us a list of dictionaries
 def get_dict_from_data(dict_list):
     '''this function returns a a dictionary from a list of dictionary'''
     business_list = []
@@ -78,11 +98,15 @@ def get_dict_from_data(dict_list):
             except:
                 continue
     print('get_dict worked')
-    return business_list
-
+    return 
 
 # get list of all the businesses dictionary's
 skim_business_data = get_dict_from_data(raw_business_data)
+################################################################################3
+
+
+
+
 #### skim_data_for1 = get_dict_from_data(raw_data_for_page)
 # create business query, add the data and commit query
 DB_NAME = 'yelp_project'
